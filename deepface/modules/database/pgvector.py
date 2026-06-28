@@ -111,6 +111,7 @@ class PGVectorClient(Database):
             logger.debug("PostgreSQL schema already checked, skipping.")
             return
 
+        vector_type = "vector" if dimensions < 2000 else "halfvec"
         create_table_stmt = f"""
             CREATE TABLE IF NOT EXISTS {table_name} (
                 id SERIAL PRIMARY KEY,
@@ -121,7 +122,7 @@ class PGVectorClient(Database):
                 detector_backend TEXT NOT NULL,
                 aligned BOOLEAN DEFAULT true,
                 l2_normalized BOOLEAN DEFAULT false,
-                embedding vector({dimensions}) NOT NULL,
+                embedding {vector_type}({dimensions}) NOT NULL,
                 created_at TIMESTAMPTZ DEFAULT now(),
                 face_hash TEXT NOT NULL,
                 embedding_hash TEXT NOT NULL,
@@ -134,7 +135,7 @@ class PGVectorClient(Database):
         create_index_stmt = f"""
             CREATE INDEX {index_name}
             ON {table_name}
-            USING hnsw (embedding {'vector_cosine_ops' if l2_normalized else 'vector_l2_ops'});
+            USING hnsw (embedding {f'{vector_type}_cosine_ops' if l2_normalized else f'{vector_type}_l2_ops'});
         """
 
         try:

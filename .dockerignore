@@ -1,0 +1,8 @@
+*
+.*
+!/deepface
+!/requirements*
+!/setup.py
+!/package_info.json
+!/entrypoint.sh
+!/README*

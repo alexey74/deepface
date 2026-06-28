@@ -9,6 +9,7 @@ tensorflow>=1.9.0
 keras>=2.2.0
 Flask>=1.1.2
 flask_cors>=4.0.1
+flask_restx>=1.1.0
 mtcnn>=0.1.0
 retina-face>=0.0.14
 fire>=0.4.0

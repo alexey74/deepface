@@ -4,6 +4,7 @@ from typing import Union, cast, Any, Tuple, Dict
 # 3rd party dependencies
 from flask import Blueprint, request
 from numpy.typing import NDArray
+from flask_restx.inputs import boolean
 
 # project dependencies
 from deepface import __version__
@@ -95,9 +96,9 @@ def represent() -> Tuple[Dict[str, Any], int]:
         img_path=img,
         model_name=input_args.get("model_name", "VGG-Face"),
         detector_backend=input_args.get("detector_backend", "opencv"),
-        enforce_detection=bool(input_args.get("enforce_detection", True)),
-        align=bool(input_args.get("align", True)),
-        anti_spoofing=bool(input_args.get("anti_spoofing", False)),
+        enforce_detection=boolean(input_args.get("enforce_detection", True)),
+        align=boolean(input_args.get("align", True)),
+        anti_spoofing=boolean(input_args.get("anti_spoofing", False)),
         max_faces=int(max_faces) if max_faces is not None else None,
     )
 
@@ -133,9 +134,9 @@ def verify() -> Tuple[Dict[str, Any], int]:
         model_name=input_args.get("model_name", "VGG-Face"),
         detector_backend=input_args.get("detector_backend", "opencv"),
         distance_metric=input_args.get("distance_metric", "cosine"),
-        align=bool(input_args.get("align", True)),
-        enforce_detection=bool(input_args.get("enforce_detection", True)),
-        anti_spoofing=bool(input_args.get("anti_spoofing", False)),
+        align=boolean(input_args.get("align", True)),
+        enforce_detection=boolean(input_args.get("enforce_detection", True)),
+        anti_spoofing=boolean(input_args.get("anti_spoofing", False)),
     )
 
     logger.debug(verification)
@@ -178,9 +179,9 @@ def analyze() -> Tuple[Dict[str, Any], int]:
         img_path=img,
         actions=actions,
         detector_backend=input_args.get("detector_backend", "opencv"),
-        enforce_detection=bool(input_args.get("enforce_detection", True)),
-        align=bool(input_args.get("align", True)),
-        anti_spoofing=bool(input_args.get("anti_spoofing", False)),
+        enforce_detection=boolean(input_args.get("enforce_detection", True)),
+        align=boolean(input_args.get("align", True)),
+        anti_spoofing=boolean(input_args.get("anti_spoofing", False)),
     )
 
     logger.debug(demographies)
@@ -216,12 +217,12 @@ def register() -> Tuple[Dict[str, Any], int]:
         img_name=input_args.get("img_name"),
         model_name=input_args.get("model_name", "VGG-Face"),
         detector_backend=input_args.get("detector_backend", "opencv"),
-        enforce_detection=bool(input_args.get("enforce_detection", True)),
-        align=bool(input_args.get("align", True)),
-        l2_normalize=bool(input_args.get("l2_normalize", False)),
+        enforce_detection=boolean(input_args.get("enforce_detection", True)),
+        align=boolean(input_args.get("align", True)),
+        l2_normalize=boolean(input_args.get("l2_normalize", False)),
         expand_percentage=int(input_args.get("expand_percentage", 0)),
         normalization=input_args.get("normalization", "base"),
-        anti_spoofing=bool(input_args.get("anti_spoofing", False)),
+        anti_spoofing=boolean(input_args.get("anti_spoofing", False)),
         database_type=variables.database_type,
         connection_details=variables.conection_details,
     )
@@ -261,17 +262,17 @@ def search() -> Tuple[Dict[str, Any], int]:
         img=img,
         model_name=input_args.get("model_name", "VGG-Face"),
         detector_backend=input_args.get("detector_backend", "opencv"),
-        enforce_detection=bool(input_args.get("enforce_detection", True)),
-        align=bool(input_args.get("align", True)),
+        enforce_detection=boolean(input_args.get("enforce_detection", True)),
+        align=boolean(input_args.get("align", True)),
         distance_metric=input_args.get("distance_metric", "cosine"),
-        l2_normalize=bool(input_args.get("l2_normalize", False)),
+        l2_normalize=boolean(input_args.get("l2_normalize", False)),
         database_type=variables.database_type,
         connection_details=variables.conection_details,
         search_method=input_args.get("search_method", "exact"),
         expand_percentage=int(input_args.get("expand_percentage", 0)),
         normalization=input_args.get("normalization", "base"),
-        anti_spoofing=bool(input_args.get("anti_spoofing", False)),
-        similarity_search=bool(input_args.get("similarity_search", False)),
+        anti_spoofing=boolean(input_args.get("anti_spoofing", False)),
+        similarity_search=boolean(input_args.get("similarity_search", False)),
         k=int(input_args.get("k", 5)) if input_args.get("k") is not None else None,
     )
 
@@ -297,8 +298,8 @@ def build_index() -> Tuple[Dict[str, Any], int]:
     return service.build_index(
         model_name=input_args.get("model_name", "VGG-Face"),
         detector_backend=input_args.get("detector_backend", "opencv"),
-        align=bool(input_args.get("align", True)),
-        l2_normalize=bool(input_args.get("l2_normalize", False)),
+        align=boolean(input_args.get("align", True)),
+        l2_normalize=boolean(input_args.get("l2_normalize", False)),
         database_type=variables.database_type,
         connection_details=variables.conection_details,
     )
