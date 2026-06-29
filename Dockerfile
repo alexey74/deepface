@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 # -----------------------------------
 # even though we will use local requirements, this one is required to perform install deepface from source code
 COPY ./requirements.txt /app/requirements.txt
-COPY ./requirements_local /app/requirements_local.txt
+COPY ./requirements_local.txt /app/requirements_local.txt
 COPY ./package_info.json /app/
 COPY ./setup.py /app/
 

@@ -476,6 +476,28 @@ def search(
     else:
         raise ValueError(f"Unsupported search method: {search_method}")
 
+def delete_by_name(
+    img_name: str,
+    model_name: str = "VGG-Face",
+    detector_backend: str = "opencv",
+    align: bool = True,
+    l2_normalize: bool = False,
+    database_type: str = "postgres",
+    connection_details: Optional[Union[Dict[str, Any], str]] = None,
+    connection: Any = None,
+) -> Any:
+    db_client = __connect_database(
+        database_type=database_type,
+        connection_details=connection_details,
+        connection=connection,
+    )
+    return db_client.delete_by_name(
+        img_name=img_name,
+        model_name=model_name,
+        detector_backend=detector_backend,
+        aligned=align,
+        l2_normalized=l2_normalize,        
+    )
 
 def build_index(
     model_name: str = "VGG-Face",

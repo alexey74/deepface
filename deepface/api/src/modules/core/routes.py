@@ -303,3 +303,36 @@ def build_index() -> Tuple[Dict[str, Any], int]:
         database_type=variables.database_type,
         connection_details=variables.conection_details,
     )
+
+
+@blueprint.route("/delete", methods=["POST"])
+def delete_by_name() -> Any:
+    # load injected variables and container
+    variables: Variables = blueprint.variables  # type: ignore[attr-defined]
+    container: Container = blueprint.container  # type: ignore[attr-defined]
+    if not container.auth_service.validate(request.headers):
+        return {"message": "Invalid or missing authentication token"}, 401
+
+    if variables.conection_details is None:
+        return {
+            "error": "Database connection details must be provided in `DEEPFACE_CONNECTION_DETAILS`"
+            " environment variables"
+        }, 500
+
+    input_args = (request.is_json and request.get_json()) or (
+        request.form and request.form.to_dict()
+    )
+
+    img_name = input_args.get("img_name")
+    if not img_name:
+        return {"error": "img_name is required"}, 500
+
+    return service.delete_by_name(
+        img_name=img_name,
+        model_name=input_args.get("model_name", "VGG-Face"),
+        detector_backend=input_args.get("detector_backend", "opencv"),
+        align=boolean(input_args.get("align", True)),
+        l2_normalize=boolean(input_args.get("l2_normalize", False)),
+        database_type=variables.database_type,
+        connection_details=variables.conection_details,
+    )

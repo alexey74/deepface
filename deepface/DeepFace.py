@@ -795,6 +795,27 @@ def register(
     )
 
 
+def delete_by_name(
+    img_name: str,
+    model_name: str = "VGG-Face",
+    detector_backend: str = "opencv",
+    align: bool = True,
+    l2_normalize: bool = False,
+    database_type: str = "postgres",
+    connection_details: Optional[Union[Dict[str, Any], str]] = None,
+    connection: Any = None,    
+) -> Any:
+    return datastore.delete_by_name(
+        img_name=img_name,
+        model_name=model_name,
+        detector_backend=detector_backend,
+        align=align,
+        l2_normalize=l2_normalize,     
+        database_type=database_type,
+        connection_details=connection_details,
+        connection=connection,           
+    )
+
 def search(
     img: Union[str, NDArray[Any], IO[bytes], List[str], List[NDArray[Any]], List[IO[bytes]]],
     model_name: str = "VGG-Face",

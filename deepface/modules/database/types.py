@@ -82,6 +82,21 @@ class Database(ABC):
             f"{self.__class__.__name__} does not support ANN search natively."
         )
 
+    def delete_by_name(
+        self,
+        img_name: str,
+        model_name: str = "VGG-Face",
+        detector_backend: str = "opencv",
+        aligned: bool = True,
+        l2_normalized: bool = False,
+    ) -> Any:
+        """
+        Delete embeddings matching specified name.
+        """
+        raise NotImplementedError(
+            f"{self.__class__.__name__} does not support deleting embeddings by name."
+        )
+
     def search_by_id(
         self,
         ids: Union[List[str], List[int]],

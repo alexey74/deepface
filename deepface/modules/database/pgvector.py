@@ -366,6 +366,46 @@ class PGVectorClient(Database):
                 )
         return results
 
+    def delete_by_name(
+        self,
+        img_name: str,
+        model_name: str = "VGG-Face",
+        detector_backend: str = "opencv",
+        aligned: bool = True,
+        l2_normalized: bool = False,
+    ) -> int:
+        """
+        Delete all embeddings with specified name.
+        Args:
+            img_name (str): Name to search for deletion.
+            model_name (str): Name of the facial recognition model.
+            detector_backend (str): Name of the face detector backend.
+            aligned (bool): Whether the faces are aligned.
+            l2_normalized (bool): Whether the embeddings are L2 normalized.
+        Returns:
+            int: Number of deleted items
+        """
+        table_name = self.__generate_table_name(
+            model_name, detector_backend, aligned, l2_normalized
+        )
+
+        self.initialize_database(
+            model_name=model_name,
+            detector_backend=detector_backend,
+            aligned=aligned,
+            l2_normalized=l2_normalized,
+        )
+
+        query = f"""
+            DELETE
+            FROM {table_name}
+            WHERE img_name = %s;
+        """
+        with self.conn.cursor() as cur:
+            cur.execute(query, (img_name,))
+            self.conn.commit()
+            return int(cur.rowcount)
+
     @staticmethod
     def __generate_table_name(
         model_name: str,
